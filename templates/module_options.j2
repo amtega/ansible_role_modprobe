@@ -1,0 +1,16 @@
+{{ ansible_managed | comment }}
+
+{% for module in modprobe_modules_managed
+                    | selectattr("alias", "defined")
+                    | list %}
+alias {{ module.alias }} {{ module.name }}
+{% endfor %}
+{% for module in modprobe_modules_managed
+                    | selectattr("options", "defined")
+                    | list %}
+{% if module.alias is defined %}
+options {{ module.alias }} {{ module.options  | default([]) | join(" ") }}
+{% else %}
+options {{ module.name }} {{ module.options  | default([]) | join(" ") }}
+{% endif %}
+{% endfor %}

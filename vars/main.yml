@@ -1,2 +1,5 @@
 ---
 # Role variables
+modprobe_default_dir: /etc/modprobe.d
+modprobe_modules_load_systemd_dir: /etc/modules-load.d
+modprobe_modules_load_sysvinit_dir: /etc/sysconfig/modules
