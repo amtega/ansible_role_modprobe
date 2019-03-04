@@ -1,2 +1,21 @@
 ---
 # Role tasks
+- block:
+    - include_tasks: init.yml
+      tags:
+        - role::modprobe::facts
+
+    - include_tasks: blacklist.yml
+      tags:
+        - role::modprobe::blacklist
+
+    - include_tasks: deactivate.yml
+      tags:
+        - role::modprobe::deactivate
+
+    - include_tasks: install.yml
+      tags:
+        - role::modprobe::install
+
+  tags:
+    - role::modprobe

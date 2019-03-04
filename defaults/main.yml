@@ -1,2 +1,6 @@
 ---
 # Role default lower priority variables
+
+modprobe_hostvars_modules: []
+
+modprobe_load_modules_from_hostvars: true
