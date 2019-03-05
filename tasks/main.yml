@@ -13,6 +13,10 @@
       tags:
         - role::modprobe::deactivate
 
+    - include_task: cleanup.yml
+      tags:
+        - role::modprobe::cleanup
+        
     - include_tasks: install.yml
       tags:
         - role::modprobe::install

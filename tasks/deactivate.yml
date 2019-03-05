@@ -12,7 +12,7 @@
         loop_var: module
         label: "{{ module.name }}"
       notify:
-        - modprobe_unload_module
+        - modprobe unload module
 
   tags:
     - role::modprobe::deactivated

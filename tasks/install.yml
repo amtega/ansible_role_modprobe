@@ -1,5 +1,5 @@
 - block:
-    - name: create config files for deactivated modules
+    - name: create config files to install modules in systemd systems
       template:
         src: systemd_module_load.j2
         dest: >-
@@ -14,9 +14,9 @@
       when: >-
         {{ ansible_facts.ansible_service_mgr }} = "systemd"
       notify:
-        - modprobe_sytemd_reload_modules
+        - modprobe sytemd reload modules
 
-    - name: create config files for deactivated modules
+    - name: create config files to install modules in non systemd syatems
       template:
         src: initd_module_load.j2
         dest: >-
@@ -31,7 +31,24 @@
       when: >-
         {{ ansible_facts.ansible_service_mgr }} != "systemd"
       notify:
-        - modprobe_sysvinit_reload_modules
+        - modprobe sysvinit reload modules
+
+    - name: create config files for pass module parameters
+      template:
+        src: module_options.j2
+        dest: >-
+          {{ modprobe_default_dir }}/{{ module.name }}.conf
+      loop: >-
+        {{ modprobe_modules_manage
+           | selectattr("state", "equalto", "install")
+           | list }}
+      loop_control:
+        loop_var: module
+        label: "{{ module.name }}"
+      when: >-
+        {{ module.alias }} is defined or {{ module.options }} is defined
+
+
 
   tags:
     - role::modprobe::install

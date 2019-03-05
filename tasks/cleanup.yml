@@ -1,0 +1,33 @@
+- block:
+    - name: remove obsolete config files if needed in systemd systems
+      file:
+        path: >-
+          {{ modprobe_modules_load_systemd_dir }}/{{ module.name }}.conf
+        state: absent
+      loop: >-
+        {{ modprobe_modules_manage
+           | selectattr("state", "equalto", "install")
+           | list }}
+      loop_control:
+        loop_var: module
+        label: "{{ module.name }}"
+      when: >-
+        {{ ansible_facts.ansible_service_mgr }} = "systemd"
+
+    - name: remove obsolete config files if needed in systemd systems
+      file:
+        path: >-
+          {{ modprobe_modules_load_sysvinit_dir }}/{{ module.name }}.modules
+        state: absent
+      loop: >-
+        {{ modprobe_modules_manage
+           | selectattr("state", "equalto", "install")
+           | list }}
+      loop_control:
+        loop_var: module
+        label: "{{ module.name }}"
+      when: >-
+        {{ ansible_facts.ansible_service_mgr }} != "systemd"
+
+  tags:
+    - role::modprobe::cleanup
