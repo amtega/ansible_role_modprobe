@@ -48,7 +48,5 @@
       when: >-
         {{ module.alias }} is defined or {{ module.options }} is defined
 
-
-
   tags:
     - role::modprobe::install

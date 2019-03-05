@@ -5,9 +5,13 @@
           {{ modprobe_modules_load_systemd_dir }}/{{ module.name }}.conf
         state: absent
       loop: >-
-        {{ modprobe_modules_manage
-           | selectattr("state", "equalto", "install")
-           | list }}
+        {{ (modprobe_modules_manage
+           | selectattr("state", "equalto", "deactivated")
+           | list)
+           +
+           (modprobe_modules_manage
+           | selectattr("state", "equalto", "blacklisted")
+           | list) }}
       loop_control:
         loop_var: module
         label: "{{ module.name }}"
@@ -20,9 +24,13 @@
           {{ modprobe_modules_load_sysvinit_dir }}/{{ module.name }}.modules
         state: absent
       loop: >-
-        {{ modprobe_modules_manage
-           | selectattr("state", "equalto", "install")
-           | list }}
+        {{ (modprobe_modules_manage
+           | selectattr("state", "equalto", "deactivated")
+           | list)
+           +
+           (modprobe_modules_manage
+           | selectattr("state", "equalto", "blacklisted")
+           | list) }}
       loop_control:
         loop_var: module
         label: "{{ module.name }}"
