@@ -14,7 +14,7 @@
       when: >-
         {{ ansible_facts.ansible_service_mgr }} = "systemd"
       notify:
-        - modprobe sytemd reload modules
+        - modprobe reload modules
 
     - name: create config files to install modules in non systemd syatems
       template:
@@ -31,7 +31,7 @@
       when: >-
         {{ ansible_facts.ansible_service_mgr }} != "systemd"
       notify:
-        - modprobe sysvinit reload modules
+        - modprobe reload modules
 
     - name: create config files for pass module parameters
       template:
