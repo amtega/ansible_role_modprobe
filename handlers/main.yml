@@ -3,7 +3,7 @@
 
 - name: Reload installed modules
   modprobe:
-    name: {{ module.name }}
+    name: "{{ module.name }}"
     state: present
   loop: >-
         {{ modprobe_modules_manage
@@ -16,7 +16,7 @@
 
 - name: Unload deactivate/blacklisted modules
   modprobe:
-    name: {{ module.name }}
+    name: "{{ module.name }}"
     state: absent
   loop: >-
         {{ (modprobe_modules_manage
