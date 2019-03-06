@@ -17,8 +17,8 @@
         modprobe_modules_managed: >-
           {{ (modprobe_load_modules_from_hostvars)
               | ternary([ modprobe_hostvars_modules ] | flatten
-                        + modprobe_hostvars_modules,
-                        modprobe_hostvars_modules) }}
+                        + modprobe_modules,
+                        modprobe_modules) }}
 
   tags:
     - role::modprobe
