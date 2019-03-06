@@ -5,7 +5,6 @@
 alias {{ alias_name }} {{ module.name }}
 {% endfor %}
 {% endif %}
-
 {% if module.options is defined %}
 options {{ module.name }} {{ module.options  | default([]) | join(" ") }}
 {% endif %}

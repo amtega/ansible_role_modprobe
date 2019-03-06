@@ -1,2 +1,53 @@
 ---
 # Tasks for testing role
+- name: configure vagrant sandbox environment
+  hosts: localhost
+  roles:
+    - role: amtega.vagrant_presets
+      vagrant_presets_boxes_json_query: >-
+        [? starts_with(name, `centos-6`)
+           || starts_with(name, `centos-7`)
+           || starts_with(name, `fedora-27`)
+           || starts_with(name, `fedora-28`) ]
+  tags:
+    - sandbox
+
+- name: run idempotence test
+  hosts: localhost
+  roles:
+    - role: amtega.vagrant_sandbox
+      vagrant_sandbox_state: started
+  tags:
+    - sandbox
+
+- name: test modprobe role
+  hosts: vagrant_sandbox_vms
+  roles:
+    - role: amtega.modprobe
+  vars:
+    modprobe_modules:
+      - name: cramfs
+        state: blacklisted
+
+      - name: usb-storage
+        state: deactivate
+
+      - name: e1000
+        state: install
+        alias:
+          - eth0
+          - eth1
+        options:
+          - Speed=10,100
+          - Duplex=2,1
+  tags:
+    - idempotence
+
+- name: cleanup vagrant sandbox
+  hosts: localhost
+  roles:
+    - role: amtega.vagrant_sandbox
+      vagrant_sandbox_state: absent
+  tags:
+    - cleanup
+    - sandbox
