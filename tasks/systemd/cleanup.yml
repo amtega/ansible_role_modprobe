@@ -1,0 +1,21 @@
+---
+# Cleanup Systemd init
+
+- name: Remove obsolete config files in Systemd init
+  file:
+    path: >-
+      {{ modprobe_modules_load_d_dir }}/{{ modprobe_item.name }}.conf
+    state: absent
+  loop: >-
+    {{ (modprobe_modules_to_manage
+        | selectattr("state", "equalto", "deactivated")
+        | list)
+       + (modprobe_modules_to_manage
+          | selectattr("state", "equalto", "blacklisted")
+          | list) }}
+  loop_control:
+    loop_var: modprobe_item
+    label: "{{ modprobe_item.name }}"
+  tags:
+    - role::modprobe::cleanup
+    - role::modprobe::cleanup::systemd

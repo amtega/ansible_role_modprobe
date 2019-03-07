@@ -1,5 +1,6 @@
 ---
 # Tasks for testing role
+
 - name: configure vagrant sandbox environment
   hosts: localhost
   roles:
@@ -30,7 +31,7 @@
         state: blacklisted
 
       - name: usb-storage
-        state: deactivate
+        state: deactivated
 
       - name: e1000
         state: install
@@ -38,8 +39,8 @@
           - eth0
           - eth1
         options:
-          - Speed=10,100
-          - Duplex=2,1
+          - speed=10,100
+          - duplex=2,1
   tags:
     - idempotence
 

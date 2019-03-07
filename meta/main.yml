@@ -1,7 +1,10 @@
+---
+# Role dependencies
+
 galaxy_info:
   role_name: modprobe
-  author: José Enrique Mourón Regueira
-  description: Configure kernel modules load
+  author: José Enrique Mourón Regueira / Juan Antonio Valiño García
+  description: Configure kernel modules load using modprobe
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
   min_ansible_version: 2.7
@@ -17,10 +20,23 @@ galaxy_info:
   galaxy_tags:
     - kernel
     - modules
+    - modprobe
 
 dependencies:
   - role: amtega.check_platform
-    check_platform_distributions:
-      centos: 6
-      fedora: 27
-      rhel: 6
+    vars:
+      check_platform_distributions:
+        centos: 6
+        fedora: 27
+        rhel: 6
+    tags:
+      - role::modprobe
+
+  - role: amtega.select_hostvars
+    vars:
+      select_hostvars_pattern: "^modprobe_modules_.*"
+      select_hostvars_fact_name: modprobe_modules_hostvars
+      select_hostvars_output_type: list
+    when: modprobe_load_modules_from_hostvars
+    tags:
+      - role::modprobe

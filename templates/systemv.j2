@@ -1,4 +1,4 @@
 {{ ansible_managed | comment }}
 
 {{ "#" }}!/bin/sh
-exec /sbin/modprobe {{ module.name }}
+exec /sbin/modprobe {{ modprobe_item.name }}

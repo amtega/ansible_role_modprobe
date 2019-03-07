@@ -1,0 +1,20 @@
+---
+# Configure modules options in System V init
+
+- name: Create config files for System V init
+  template:
+    src: systemv.j2
+    dest: >-
+      {{ modprobe_etc_sysconfig_modules_dir }}/{{ modprobe_item.name }}.modules
+  loop: >-
+    {{ modprobe_modules_to_manage
+       | selectattr("state", "equalto", "install")
+       | list }}
+  loop_control:
+    loop_var: modprobe_item
+    label: "{{ modprobe_item.name }}"
+  notify:
+    - modprobe load modules
+  tags:
+    - role::modprobe::configure
+    - role::modprobe::configure::systemv

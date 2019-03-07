@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+
+{% if modprobe_item.alias is defined %}
+{% for alias_name in modprobe_item.alias %}
+alias {{ alias_name }} {{ modprobe_item.name }}
+{% endfor %}
+{% endif %}
+{% if modprobe_item.options is defined %}
+options {{ modprobe_item.name }} {{ modprobe_item.options  | default([]) | join(" ") }}
+{% endif %}

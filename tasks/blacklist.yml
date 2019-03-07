@@ -1,18 +1,18 @@
-- block:
-    - name: create config files for blacklisted modules
-      template:
-        src: module_blacklisted.j2
-        dest: >-
-          {{ modprobe_default_dir }}/{{ module.name }}.conf
-      loop: >-
-        {{ modprobe_modules_managed
-           | selectattr("state", "equalto", "blacklisted")
-           | list }}
-      loop_control:
-        loop_var: module
-        label: "{{ module.name }}"
-      notify:
-        - modprobe unload module
+---
+# Manage blacklisted modules
 
+- name: Create config files for blacklisted modules
+  template:
+    src: blacklisted.j2
+    dest: "{{ modprobe_d_dir }}/{{ modprobe_item.name }}.conf"
+  loop: >-
+    {{ modprobe_modules_to_manage
+       | selectattr("state", "equalto", "blacklisted")
+       | list }}
+  loop_control:
+    loop_var: modprobe_item
+    label: "{{ modprobe_item.name }}"
+  notify:
+    - modprobe unload modules
   tags:
     - role::modprobe::blacklisted

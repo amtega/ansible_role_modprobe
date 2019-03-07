@@ -1,18 +1,20 @@
-- block:
-    - name: create config files for deactivated modules
-      template:
-        src: module_deactivate.j2
-        dest: >-
-          {{ modprobe_default_dir }}/{{ module.name }}.conf
-      loop: >-
-        {{ modprobe_modules_manage
-           | selectattr("state", "equalto", "deactivated")
-           | list }}
-      loop_control:
-        loop_var: module
-        label: "{{ module.name }}"
-      notify:
-        - modprobe unload module
+---
+# Manage deactvated modules
+
+- name: Create config files for deactivated modules
+  template:
+    src: deactivate.j2
+    dest: >-
+      {{ modprobe_d_dir }}/{{ modprobe_item.name }}.conf
+  loop: >-
+    {{ modprobe_modules_to_manage
+       | selectattr("state", "equalto", "deactivated")
+       | list }}
+  loop_control:
+    loop_var: modprobe_item
+    label: "{{ modprobe_item.name }}"
+  notify:
+    - modprobe unload modules
 
   tags:
     - role::modprobe::deactivated

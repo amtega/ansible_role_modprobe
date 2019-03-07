@@ -1,32 +1,31 @@
 ---
 # Role handlers
 
-- name: Reload installed modules
+- name: Load modules
   modprobe:
-    name: "{{ module.name }}"
+    name: "{{ modprobe_item.name }}"
     state: present
   loop: >-
-        {{ modprobe_modules_manage
-           | selectattr("state", "equalto", "install")
-           | list }}
+    {{ modprobe_modules_to_manage
+       | selectattr("state", "equalto", "install")
+       | list }}
   loop_control:
-    loop_var: module
-    label: "{{ module.name }}"
-  listen: modprobe reload modules
+    loop_var: modprobe_item
+    label: "{{ modprobe_item.name }}"
+  listen: modprobe load modules
 
-- name: Unload deactivate/blacklisted modules
+- name: Unload deactivated/blacklisted modules
   modprobe:
-    name: "{{ module.name }}"
+    name: "{{ modprobe_item.name }}"
     state: absent
   loop: >-
-        {{ (modprobe_modules_manage
-           | selectattr("state", "equalto", "deactivated")
-           | list)
-           +
-           (modprobe_modules_manage
-           | selectattr("state", "equalto", "blacklisted")
-           | list) }}
+    {{ (modprobe_modules_to_manage
+        | selectattr("state", "equalto", "deactivated")
+        | list)
+       + (modprobe_modules_to_manage
+          | selectattr("state", "equalto", "blacklisted")
+          | list) }}
   loop_control:
-    loop_var: module
-    label: "{{ module.name }}"
-  listen: modprobe unload module
+    loop_var: modprobe_item
+    label: "{{ modprobe_item.name }}"
+  listen: modprobe unload modules

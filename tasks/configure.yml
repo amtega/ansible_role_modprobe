@@ -1,0 +1,27 @@
+---
+# Configure modules options
+
+- block:
+    - include_tasks: systemd/configure.yml
+      when: ansible_facts.service_mgr == "systemd"
+
+    - include_tasks: systemv/configure.yml
+      when: ansible_facts.service_mgr != "systemd"
+
+    - name: Create modules parameters config files
+      template:
+        src: options.j2
+        dest: >-
+          {{ modprobe_d_dir }}/{{ modprobe_item.name }}.conf
+      loop: >-
+        {{ modprobe_modules_to_manage
+           | selectattr("state", "equalto", "install")
+           | list }}
+      loop_control:
+        loop_var: modprobe_item
+        label: "{{ modprobe_item.name }}"
+      when: modprobe_item.alias is defined or modprobe_item.options is defined
+  tags:
+    - role::modprobe::configure
+    - role::modprobe::configure::systemd
+    - role::modprobe::configure::systemv
