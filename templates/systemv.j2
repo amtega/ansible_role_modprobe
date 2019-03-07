@@ -1,0 +1,4 @@
+{{ ansible_managed | comment }}
+
+{{ "#" }}!/bin/sh
+exec /sbin/modprobe {{ modprobe_item.name }}

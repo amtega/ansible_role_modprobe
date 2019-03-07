@@ -1,2 +1,15 @@
 ---
 # Role variables
+
+# Modprobe path
+
+modprobe_d_dir: /etc/modprobe.d
+modprobe_modules_load_d_dir: /etc/modules-load.d
+modprobe_etc_sysconfig_modules_dir: /etc/sysconfig/modules
+
+# Modules to manage
+
+modprobe_modules_to_manage: >-
+  {{ modprobe_modules
+     + ((modprobe_load_modules_from_hostvars)
+        | ternary(modprobe_modules_hostvars | default([]) | flatten, [])) }}

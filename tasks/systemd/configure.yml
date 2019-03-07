@@ -1,0 +1,20 @@
+---
+# Configure modules options in Systemd init
+
+- name: Create modules config files for Systemd init
+  template:
+    src: systemd.j2
+    dest: >-
+      {{ modprobe_modules_load_d_dir }}/{{ modprobe_item.name }}.conf
+  loop: >-
+    {{ modprobe_modules_to_manage
+       | selectattr("state", "equalto", "install")
+       | list }}
+  loop_control:
+    loop_var: modprobe_item
+    label: "{{ modprobe_item.name }}"
+  notify:
+    - modprobe load modules
+  tags:
+    - role::modprobe::configure
+    - role::modprobe::configure::systemd
