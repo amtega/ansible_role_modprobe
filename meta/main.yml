@@ -20,6 +20,7 @@ galaxy_info:
   galaxy_tags:
     - kernel
     - modules
+    - modprobe
 
 dependencies:
   - role: amtega.check_platform
