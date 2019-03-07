@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+
+{% if module.alias is defined %}
+{% for alias_name in module.alias %}
+alias {{ alias_name }} {{ module.name }}
+{% endfor %}
+{% endif %}
+{% if module.options is defined %}
+options {{ module.name }} {{ module.options  | default([]) | join(" ") }}
+{% endif %}

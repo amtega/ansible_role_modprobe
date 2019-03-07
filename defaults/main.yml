@@ -1,2 +1,40 @@
 ---
 # Role default lower priority variables
+
+#List of dict with kernel modules to manage by the role.
+#The dicts must have the following structure:
+# {
+#   name: <name>     #name of the module (required)
+#   state: <state>   #Must be one of [blacklisted,deactivate,install] (required)
+#   alias:           #List of alias for module. Only with intall state
+#     -<alias1>
+#     -<alias2>
+#     -<aliasN>
+#   options:         # List of strings with options for module. Only with intall state
+#     - <option1>
+#     - <option2>
+#     - <optionN>
+# }
+# Samples:
+#   modprobe_modules:
+#     - name: cramfs
+#       state: blacklisted
+#
+#     - name: usb-storage
+#       state: deactivate
+#
+#     - name: e1000
+#       state: install
+#       alias:
+#         - eth0
+#         - eth1
+#       options:
+#         - Speed=10,100
+#         - Duplex=2,1
+modprobe_modules: []
+
+# Indicate to role if is capable to read inventory host vars and recopile modules
+# from variables with same format than modprobe_modules, wich name fits the format
+# modprobe_module_<name>
+
+modprobe_load_modules_from_hostvars: true
