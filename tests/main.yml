@@ -1,7 +1,7 @@
 ---
 # Tasks for testing role
 
-- name: configure vagrant sandbox environment
+- name: Configure vagrant sandbox environment
   hosts: localhost
   roles:
     - role: amtega.vagrant_presets
@@ -13,7 +13,7 @@
   tags:
     - sandbox
 
-- name: run idempotence test
+- name: Run idempotence test
   hosts: localhost
   roles:
     - role: amtega.vagrant_sandbox
@@ -21,19 +21,19 @@
   tags:
     - sandbox
 
-- name: test modprobe role
+- name: Test modprobe role
   hosts: vagrant_sandbox_vms
   roles:
     - role: amtega.modprobe
   vars:
     modprobe_modules:
-      - name: cramfs
+      - name: Cramfs
         state: blacklisted
 
-      - name: usb-storage
+      - name: Usb-storage
         state: deactivated
 
-      - name: e1000
+      - name: E1000
         state: install
         alias:
           - eth0
@@ -44,7 +44,7 @@
   tags:
     - idempotence
 
-- name: cleanup vagrant sandbox
+- name: Cleanup vagrant sandbox
   hosts: localhost
   roles:
     - role: amtega.vagrant_sandbox
