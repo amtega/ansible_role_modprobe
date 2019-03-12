@@ -34,9 +34,10 @@ dependencies:
 
   - role: amtega.select_hostvars
     vars:
-      select_hostvars_pattern: "^modprobe_modules_.*"
-      select_hostvars_fact_name: modprobe_modules_hostvars
-      select_hostvars_output_type: list
+      select_hostvars_query:
+        pattern: "^modprobe_modules_.*"
+        fact_name: modprobe_modules_hostvars
+        output_type: list
     when: modprobe_load_modules_from_hostvars
     tags:
       - role::modprobe
