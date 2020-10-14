@@ -23,21 +23,8 @@ galaxy_info:
     - modprobe
 
 dependencies:
-  - role: amtega.check_platform
-    vars:
-      check_platform_distributions:
-        centos: 6
-        fedora: 29
-        redhat: 6
-    tags:
-      - role::modprobe
-
-  - role: amtega.select_hostvars
-    vars:
-      select_hostvars_query:
-        pattern: "^modprobe_modules_.*"
-        fact_name: modprobe_modules_hostvars
-        output_type: list
-    when: modprobe_load_modules_from_hostvars
-    tags:
-      - role::modprobe
+  # - role: amtega.check_platform
+  #   check_platform_distributions:
+  #     centos: 6
+  #     fedora: 29
+  #     redhat: 6
