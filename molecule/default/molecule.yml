@@ -46,13 +46,13 @@ platforms:
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-      - molecule_hosts_fedora_31
+      - molecule_hosts_fedora_29
   - name: "fedora30-${INSTANCE_UUID:-1}"
     box: fedora/30-cloud-base
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-      - molecule_hosts_fedora_32
+      - molecule_hosts_fedora_30
 provisioner:
   name: ansible
   config_options:
