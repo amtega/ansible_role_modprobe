@@ -2,9 +2,14 @@
 # Manage blacklisted modules
 
 - name: Create config files for blacklisted modules
+  become: yes
   template:
     src: blacklisted.j2
     dest: "{{ modprobe_d_dir }}/{{ modprobe_item.name }}.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
   loop: >-
     {{ modprobe_modules_to_manage
        | selectattr("state", "equalto", "blacklisted")

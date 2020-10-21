@@ -2,10 +2,14 @@
 # Manage deactvated modules
 
 - name: Create config files for deactivated modules
+  become: yes
   template:
     src: deactivate.j2
     dest: >-
       {{ modprobe_d_dir }}/{{ modprobe_item.name }}.conf
+    owner: root
+    group: root
+    mode: '0644'
   loop: >-
     {{ modprobe_modules_to_manage
        | selectattr("state", "equalto", "deactivated")
