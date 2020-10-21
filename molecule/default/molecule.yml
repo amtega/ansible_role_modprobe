@@ -3,7 +3,6 @@
 dependency:
   name: galaxy
 driver:
-  #name: docker
   name: vagrant
   provider:
     name: virtualbox
@@ -30,72 +29,26 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: "centos6-${INSTANCE_UUID:-1}"
-    box: centos/6
-    provider_options:
-      gui: false
-    provider_raw_config_args:
-      # Disable video
-      - 'customize ["modifyvm", :id, "--graphicscontroller", "none"]'
-      - 'customize ["modifyvm", :id, "--vram", "0"]'
-      # Disable audio
-      - 'customize ["modifyvm", :id, "--audio", "none"]'
-    groups:
-      - molecule_hosts
-      - molecule_hosts_centos
-      - molecule_hosts_centos_6
   - name: "centos7-${INSTANCE_UUID:-1}"
     box: centos/7
-    provider_options:
-      gui: false
-    provider_raw_config_args:
-      # Disable video
-      - 'customize ["modifyvm", :id, "--graphicscontroller", "none"]'
-      - 'customize ["modifyvm", :id, "--vram", "0"]'
-      # Disable audio
-      - 'customize ["modifyvm", :id, "--audio", "none"]'
     groups:
       - molecule_hosts
       - molecule_hosts_centos
       - molecule_hosts_centos_7
   - name: "centos8-${INSTANCE_UUID:-1}"
     box: centos/8
-    provider_options:
-      gui: false
-    provider_raw_config_args:
-      # Disable video
-      - 'customize ["modifyvm", :id, "--graphicscontroller", "none"]'
-      - 'customize ["modifyvm", :id, "--vram", "0"]'
-      # Disable audio
-      - 'customize ["modifyvm", :id, "--audio", "none"]'
     groups:
       - molecule_hosts
       - molecule_hosts_centos
       - molecule_hosts_centos_8
-  - name: "fedora31-${INSTANCE_UUID:-1}"
-    box: fedora/31-cloud-base
-    provider_options:
-      gui: false
-    provider_raw_config_args:
-      # Disable video
-      - 'customize ["modifyvm", :id, "--graphicscontroller", "none"]'
-      - 'customize ["modifyvm", :id, "--vram", "0"]'
-      # Disable audio
-      - 'customize ["modifyvm", :id, "--audio", "none"]'
+  - name: "fedora29-${INSTANCE_UUID:-1}"
+    box: fedora/29-cloud-base
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
       - molecule_hosts_fedora_31
-  - name: "fedora32-${INSTANCE_UUID:-1}"
-    box: fedora/32-cloud-base
-    provider_options:
-      gui: false
-    provider_raw_config_args:
-      # Disable video
-      - 'customize ["modifyvm", :id, "--graphicscontroller", "none"]'
-      - 'customize ["modifyvm", :id, "--vram", "0"]'
-      # Disable audio
-      - 'customize ["modifyvm", :id, "--audio", "none"]'
+  - name: "fedora30-${INSTANCE_UUID:-1}"
+    box: fedora/30-cloud-base
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
@@ -109,22 +62,19 @@ provisioner:
   inventory:
     hosts:
       molecule_hosts:
-        # vars:
-        #   modprobe_modules:
-        #     - name: Cramfs
-        #       state: blacklisted
-        #
-        #     - name: Usb-storage
-        #       state: deactivated
-        #
-        #     - name: E1000
-        #       state: install
-        #       alias:
-        #         - eth0
-        #         - eth1
-        #       options:
-        #         - speed=10,100
-        #         - duplex=2,1
-
+        vars:
+          modprobe_modules:
+            - name: cramfs
+              state: blacklisted
+            - name: usb-storage
+              state: deactivated
+            - name: e1000
+              state: install
+              alias:
+                - eth0
+                - eth1
+              options:
+                - speed=10,100
+                - duplex=2,1
 verifier:
   name: ansible

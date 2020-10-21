@@ -1,24 +1,6 @@
 ---
 - name: Converge
   hosts: molecule_hosts
-  gather_facts: no
-  tasks:
-    - name: "Include amtega.modprobe"
-      include_role:
-        name: "amtega.modprobe"
-      vars:
-        modprobe_modules:
-          - name: Cramfs
-            state: blacklisted
-
-          - name: Usb-storage
-            state: deactivated
-
-          - name: E1000
-            state: install
-            alias:
-              - eth0
-              - eth1
-            options:
-              - speed=10,100
-              - duplex=2,1
+  become: yes
+  roles:
+    - amtega.modprobe
