@@ -41,4 +41,4 @@ modprobe_modules: []
 # attributes will be loaded as an item to manage by the role. The variables must
 # follow the structure detailed before for `modprobe_modules`
 
-modprobe_load_modules_from_hostvars: true
+modprobe_load_modules_from_hostvars: yes

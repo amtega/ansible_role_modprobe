@@ -6,6 +6,7 @@
     src: systemv.j2
     dest: >-
       {{ modprobe_etc_sysconfig_modules_dir }}/{{ modprobe_item.name }}.modules
+    mode: 0644
   loop: >-
     {{ modprobe_modules_to_manage
        | selectattr("state", "equalto", "install")
