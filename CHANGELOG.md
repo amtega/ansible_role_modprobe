@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2022-05-05
+### Fixed
+- Fixed select_hostvars integration. Related to ansible/playbooks/linux#91
+
 ## [1.2.0] - 2022-02-07
 ### Changed
 - Supported distros. Related to ansible/main#178
