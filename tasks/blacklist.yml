@@ -9,7 +9,6 @@
     owner: root
     group: root
     mode: '0644'
-
   loop: >-
     {{ modprobe_modules_to_manage
        | selectattr("state", "equalto", "blacklisted")

@@ -29,3 +29,13 @@ dependencies:
       centos: 7
       fedora: 34
       redhat: 7
+
+  - role: amtega.select_hostvars
+    vars:
+      select_hostvars_query:
+        pattern: "^modprobe_modules_.*"
+        attributes:
+          - name
+        fact_name: modprobe_modules_hostvars
+        output_type: list
+    when: modprobe_load_modules_from_hostvars | bool
