@@ -6,14 +6,14 @@
   become: yes
   tasks:
     - name: Setup packages
-      raw: yum install -y libselinux-python
+      ansible.builtin.raw: yum install -y libselinux-python
       changed_when: yes
 
     - name: Update system
-      command: yum update -y
+      ansible.builtin.command: yum update -y
       when: yes
       args:
         warn: no
 
     - name: Reboot machine
-      reboot:
+      ansible.builtin.reboot:

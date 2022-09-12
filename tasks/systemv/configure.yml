@@ -1,8 +1,7 @@
 ---
-# Configure modules options in System V init
 
 - name: Create config files for System V init
-  template:
+  ansible.builtin.template:
     src: systemv.j2
     dest: >-
       {{ modprobe_etc_sysconfig_modules_dir }}/{{ modprobe_item.name }}.modules
