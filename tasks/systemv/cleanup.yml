@@ -1,8 +1,7 @@
 ---
-# Cleanup System V init
 
 - name: Remove obsolete config files if System V init
-  file:
+  ansible.builtin.file:
     path: >-
       {{ modprobe_etc_sysconfig_modules_dir }}/{{ modprobe_item.name }}.modules
     state: absent

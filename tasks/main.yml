@@ -1,22 +1,22 @@
 ---
-# Role tasks
 
-- block:
-    - include_tasks: blacklist.yml
+- name: Setup modproble
+  block:
+    - ansible.builtin.include_tasks: blacklist.yml
       tags:
         - role::modprobe::blacklist
 
-    - include_tasks: deactivate.yml
+    - ansible.builtin.include_tasks: deactivate.yml
       tags:
         - role::modprobe::deactivated
 
-    - include_tasks: cleanup.yml
+    - ansible.builtin.include_tasks: cleanup.yml
       tags:
         - role::modprobe::cleanup
         - role::modprobe::cleanup::systemd
         - role::modprobe::cleanup::systemv
 
-    - include_tasks: configure.yml
+    - ansible.builtin.include_tasks: configure.yml
       tags:
         - role::modprobe::configure
         - role::modprobe::configure::systemd

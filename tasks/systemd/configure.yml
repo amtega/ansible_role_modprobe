@@ -1,8 +1,7 @@
 ---
-# Configure modules options in Systemd init
 
 - name: Create modules config files for Systemd init
-  template:
+  ansible.builtin.template:
     src: systemd.j2
     dest: >-
       {{ modprobe_modules_load_d_dir }}/{{ modprobe_item.name }}.conf
