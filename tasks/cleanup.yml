@@ -1,11 +1,11 @@
 ---
-# Cleanup tasks
 
-- block:
-    - include_tasks: systemd/cleanup.yml
+- name: Cleanup modprobe
+  block:
+    - ansible.builtin.include_tasks: systemd/cleanup.yml
       when: ansible_facts.service_mgr == "systemd"
 
-    - include_tasks: systemv/cleanup.yml
+    - ansible.builtin.include_tasks: systemv/cleanup.yml
       when: ansible_facts.service_mgr != "systemd"
   tags:
     - role::modprobe::cleanup

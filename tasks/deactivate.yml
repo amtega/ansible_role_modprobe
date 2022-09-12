@@ -1,9 +1,7 @@
 ---
-# Manage deactvated modules
 
 - name: Create config files for deactivated modules
-  become: yes
-  template:
+  ansible.builtin.template:
     src: deactivate.j2
     dest: >-
       {{ modprobe_d_dir }}/{{ modprobe_item.name }}.conf

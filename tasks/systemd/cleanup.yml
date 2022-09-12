@@ -1,8 +1,7 @@
 ---
-# Cleanup Systemd init
 
 - name: Remove obsolete config files in Systemd init
-  file:
+  ansible.builtin.file:
     path: >-
       {{ modprobe_modules_load_d_dir }}/{{ modprobe_item.name }}.conf
     state: absent
